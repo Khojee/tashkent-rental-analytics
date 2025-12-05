@@ -1,4 +1,9 @@
 requests
 beautifulsoup4
-pandas
 lxml
+pandas
+numpy
+plotly
+pathlib
+typing
+plotly.express
