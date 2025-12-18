@@ -7,3 +7,4 @@ plotly
 pathlib
 typing
 plotly.express
+shapely 

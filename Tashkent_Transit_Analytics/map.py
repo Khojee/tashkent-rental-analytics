@@ -39,7 +39,12 @@ out body;
 """
 
 r = requests.get(OVERPASS_URL, params={"data": query})
-data = r.json()
+if r.status_code != 200:
+    print(f"Error fetching bus stops: {r.status_code}")
+    print(r.text[:200])
+    data = {"elements": []} # Fallback
+else:
+    data = r.json()
 
 rows = []
 for el in data["elements"]:
@@ -52,4 +57,25 @@ for el in data["elements"]:
 
 bus_stop_df = pd.DataFrame(rows)
 
-print(bus_stop_df.head(10))
+metro_df['type'] = 'metro'
+bus_stop_df['type'] = 'bus'
+
+# Rename specific name columns to a common 'name' column for consistency
+transit_df = pd.concat([
+    metro_df.rename(columns={'station': 'name'}),
+    bus_stop_df.rename(columns={'bus_stop': 'name'})
+], ignore_index=True)
+
+print(transit_df.head(10))
+
+import os
+
+# Create data directory relative to the script location
+script_dir = os.path.dirname(os.path.abspath(__file__))
+data_dir = os.path.join(script_dir, "data")
+os.makedirs(data_dir, exist_ok=True)
+
+output_path = os.path.join(data_dir, "transit_data.csv")
+transit_df.to_csv(output_path, index=False)
+print(f"Saved data to {output_path}")
+
