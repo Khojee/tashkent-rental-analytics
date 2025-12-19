@@ -1,71 +1,127 @@
 {
   "districts": [
     {
-      "district": "mirzo-ulugbek",
-      "district_display": "Mirzo Ulugbek",
-      "transit_score": 7.2,
-      "affordability_score": 10.0,
-      "employment_score": 7.0,
-      "composite_score": 8.3,
-      "avg_rent_uzs": 8320000,
-      "avg_rent_usd": 650,
-      "total_jobs": 206,
-      "avg_area": 71.7,
-      "avg_rooms": 2.4,
-      "rental_listings": 508
+      "district": "yashnabad",
+      "district_display": "Yashnabad",
+      "transit_score": 8.2,
+      "affordability_score": 8.3,
+      "employment_score": 6.1,
+      "composite_score": 7.6,
+      "avg_rent_uzs": 6400000,
+      "avg_rent_usd": 500,
+      "total_jobs": 176,
+      "avg_area": 65.5,
+      "avg_rooms": 2.1,
+      "rental_listings": 471
     },
     {
       "district": "yunusabad",
       "district_display": "Yunusabad",
-      "transit_score": 5.0,
-      "affordability_score": 5.0,
+      "transit_score": 6.0,
+      "affordability_score": 6.7,
       "employment_score": 10.0,
-      "composite_score": 6.5,
-      "avg_rent_uzs": 0,
-      "avg_rent_usd": 0,
-      "total_jobs": 290,
-      "avg_area": 0.0,
-      "avg_rooms": 0.0,
-      "rental_listings": 0
+      "composite_score": 7.5,
+      "avg_rent_uzs": 7680000,
+      "avg_rent_usd": 600,
+      "total_jobs": 285,
+      "avg_area": 75.4,
+      "avg_rooms": 2.5,
+      "rental_listings": 474
     },
     {
-      "district": "yakkasarai",
-      "district_display": "Yakkasaray",
-      "transit_score": 5.8,
-      "affordability_score": 5.7,
-      "employment_score": 5.0,
-      "composite_score": 5.5,
-      "avg_rent_uzs": 10240000,
-      "avg_rent_usd": 800,
-      "total_jobs": 0,
-      "avg_area": 87.1,
+      "district": "mirzo-ulugbek",
+      "district_display": "Mirzo Ulugbek",
+      "transit_score": 7.2,
+      "affordability_score": 6.7,
+      "employment_score": 7.0,
+      "composite_score": 6.9,
+      "avg_rent_uzs": 7680000,
+      "avg_rent_usd": 600,
+      "total_jobs": 200,
+      "avg_area": 69.1,
+      "avg_rooms": 2.3,
+      "rental_listings": 502
+    },
+    {
+      "district": "almazar",
+      "district_display": "Almazar",
+      "transit_score": 7.2,
+      "affordability_score": 7.5,
+      "employment_score": 2.3,
+      "composite_score": 5.9,
+      "avg_rent_uzs": 7040000,
+      "avg_rent_usd": 550,
+      "total_jobs": 71,
+      "avg_area": 72.2,
       "avg_rooms": 2.6,
-      "rental_listings": 528
+      "rental_listings": 450
     },
     {
-      "district": "yashnabad",
-      "district_display": "Yashnabad",
-      "transit_score": 5.0,
-      "affordability_score": 5.0,
-      "employment_score": 5.8,
+      "district": "chilonzor",
+      "district_display": "Chilonzor",
+      "transit_score": 4.5,
+      "affordability_score": 9.2,
+      "employment_score": 2.5,
+      "composite_score": 5.8,
+      "avg_rent_uzs": 5760000,
+      "avg_rent_usd": 450,
+      "total_jobs": 77,
+      "avg_area": 58.5,
+      "avg_rooms": 2.5,
+      "rental_listings": 464
+    },
+    {
+      "district": "uchtepa",
+      "district_display": "Uchtepa",
+      "transit_score": 6.0,
+      "affordability_score": 9.2,
+      "employment_score": 0.2,
+      "composite_score": 5.5,
+      "avg_rent_uzs": 5760000,
+      "avg_rent_usd": 450,
+      "total_jobs": 12,
+      "avg_area": 71.2,
+      "avg_rooms": 2.6,
+      "rental_listings": 432
+    },
+    {
+      "district": "sergeli",
+      "district_display": "Sergeli",
+      "transit_score": 3.5,
+      "affordability_score": 10.0,
+      "employment_score": 0.8,
       "composite_score": 5.3,
-      "avg_rent_uzs": 0,
-      "avg_rent_usd": 0,
-      "total_jobs": 172,
-      "avg_area": 0.0,
-      "avg_rooms": 0.0,
-      "rental_listings": 0
+      "avg_rent_uzs": 5120000,
+      "avg_rent_usd": 400,
+      "total_jobs": 29,
+      "avg_area": 69.9,
+      "avg_rooms": 2.3,
+      "rental_listings": 459
+    },
+    {
+      "district": "bektemir",
+      "district_display": "Bektemir",
+      "transit_score": 3.8,
+      "affordability_score": 10.0,
+      "employment_score": 0.1,
+      "composite_score": 5.2,
+      "avg_rent_uzs": 5120000,
+      "avg_rent_usd": 400,
+      "total_jobs": 9,
+      "avg_area": 67.3,
+      "avg_rooms": 2.5,
+      "rental_listings": 437
     },
     {
       "district": "yakkasaray",
       "district_display": "Yakkasaray",
       "transit_score": 5.0,
       "affordability_score": 5.0,
-      "employment_score": 5.5,
+      "employment_score": 5.4,
       "composite_score": 5.1,
       "avg_rent_uzs": 0,
       "avg_rent_usd": 0,
-      "total_jobs": 161,
+      "total_jobs": 157,
       "avg_area": 0.0,
       "avg_rooms": 0.0,
       "rental_listings": 0
@@ -75,70 +131,42 @@
       "district_display": "Shaykhantahur",
       "transit_score": 5.0,
       "affordability_score": 5.0,
-      "employment_score": 3.5,
-      "composite_score": 4.5,
+      "employment_score": 3.7,
+      "composite_score": 4.6,
       "avg_rent_uzs": 0,
       "avg_rent_usd": 0,
-      "total_jobs": 105,
+      "total_jobs": 109,
       "avg_area": 0.0,
       "avg_rooms": 0.0,
       "rental_listings": 0
     },
     {
-      "district": "chilonzor",
-      "district_display": "Chilonzor",
-      "transit_score": 5.0,
-      "affordability_score": 5.0,
-      "employment_score": 2.5,
-      "composite_score": 4.2,
-      "avg_rent_uzs": 0,
-      "avg_rent_usd": 0,
-      "total_jobs": 76,
-      "avg_area": 0.0,
-      "avg_rooms": 0.0,
-      "rental_listings": 0
+      "district": "yakkasarai",
+      "district_display": "Yakkasaray",
+      "transit_score": 4.0,
+      "affordability_score": 3.3,
+      "employment_score": 5.0,
+      "composite_score": 4.0,
+      "avg_rent_uzs": 10240000,
+      "avg_rent_usd": 800,
+      "total_jobs": 0,
+      "avg_area": 87.3,
+      "avg_rooms": 2.7,
+      "rental_listings": 485
     },
     {
-      "district": "almazar",
-      "district_display": "Almazar",
-      "transit_score": 5.0,
-      "affordability_score": 5.0,
-      "employment_score": 2.2,
-      "composite_score": 4.2,
-      "avg_rent_uzs": 0,
-      "avg_rent_usd": 0,
-      "total_jobs": 69,
-      "avg_area": 0.0,
-      "avg_rooms": 0.0,
-      "rental_listings": 0
-    },
-    {
-      "district": "sergeli",
-      "district_display": "Sergeli",
-      "transit_score": 5.0,
-      "affordability_score": 5.0,
-      "employment_score": 0.8,
-      "composite_score": 3.8,
-      "avg_rent_uzs": 0,
-      "avg_rent_usd": 0,
-      "total_jobs": 30,
-      "avg_area": 0.0,
-      "avg_rooms": 0.0,
-      "rental_listings": 0
-    },
-    {
-      "district": "uchtepa",
-      "district_display": "Uchtepa",
-      "transit_score": 5.0,
-      "affordability_score": 5.0,
-      "employment_score": 0.3,
+      "district": "mirabad",
+      "district_display": "Mirabad",
+      "transit_score": 5.2,
+      "affordability_score": 0.0,
+      "employment_score": 6.8,
       "composite_score": 3.6,
-      "avg_rent_uzs": 0,
-      "avg_rent_usd": 0,
-      "total_jobs": 14,
-      "avg_area": 0.0,
-      "avg_rooms": 0.0,
-      "rental_listings": 0
+      "avg_rent_uzs": 12800000,
+      "avg_rent_usd": 1000,
+      "total_jobs": 197,
+      "avg_area": 98.6,
+      "avg_rooms": 3.0,
+      "rental_listings": 515
     },
     {
       "district": "yangi-hayot",
@@ -149,10 +177,24 @@
       "composite_score": 3.6,
       "avg_rent_uzs": 0,
       "avg_rent_usd": 0,
-      "total_jobs": 14,
+      "total_jobs": 13,
       "avg_area": 0.0,
       "avg_rooms": 0.0,
       "rental_listings": 0
+    },
+    {
+      "district": "shaykhantohur",
+      "district_display": "Shaykhontohur",
+      "transit_score": 6.8,
+      "affordability_score": 0.0,
+      "employment_score": 5.0,
+      "composite_score": 3.5,
+      "avg_rent_uzs": 12800000,
+      "avg_rent_usd": 1000,
+      "total_jobs": 0,
+      "avg_area": 84.0,
+      "avg_rooms": 2.6,
+      "rental_listings": 525
     },
     {
       "district": "yangi-tashkent",
@@ -167,95 +209,163 @@
       "avg_area": 0.0,
       "avg_rooms": 0.0,
       "rental_listings": 0
-    },
-    {
-      "district": "bektemir",
-      "district_display": "Bektemir",
-      "transit_score": 5.0,
-      "affordability_score": 5.0,
-      "employment_score": 0.1,
-      "composite_score": 3.5,
-      "avg_rent_uzs": 0,
-      "avg_rent_usd": 0,
-      "total_jobs": 10,
-      "avg_area": 0.0,
-      "avg_rooms": 0.0,
-      "rental_listings": 0
-    },
-    {
-      "district": "mirabad",
-      "district_display": "Mirabad",
-      "transit_score": 4.5,
-      "affordability_score": 0.0,
-      "employment_score": 6.5,
-      "composite_score": 3.3,
-      "avg_rent_uzs": 12800000,
-      "avg_rent_usd": 1000,
-      "total_jobs": 192,
-      "avg_area": 99.7,
-      "avg_rooms": 2.9,
-      "rental_listings": 557
     }
   ],
   "rent_distribution": {
     "price_uzs-mean": {
-      "mirabad": 17918409.0,
-      "mirzo-ulugbek": 9665826.0,
-      "yakkasarai": 12804945.0
+      "almazar": 7417282.0,
+      "bektemir": 5286957.0,
+      "chilonzor": 5738483.0,
+      "mirabad": 14018336.0,
+      "mirzo-ulugbek": 9280257.0,
+      "sergeli": 5056864.0,
+      "shaykhantohur": 13570380.0,
+      "uchtepa": 7208353.0,
+      "yakkasarai": 11209711.0,
+      "yashnabad": 7307730.0,
+      "yunusabad": 8609786.0
     },
     "price_uzs-median": {
+      "almazar": 7040000.0,
+      "bektemir": 5120000.0,
+      "chilonzor": 5760000.0,
       "mirabad": 12800000.0,
-      "mirzo-ulugbek": 8320000.0,
-      "yakkasarai": 10240000.0
+      "mirzo-ulugbek": 7680000.0,
+      "sergeli": 5120000.0,
+      "shaykhantohur": 12800000.0,
+      "uchtepa": 5760000.0,
+      "yakkasarai": 10240000.0,
+      "yashnabad": 6400000.0,
+      "yunusabad": 7680000.0
     },
     "price_uzs-min": {
+      "almazar": 650000.0,
+      "bektemir": 500000.0,
+      "chilonzor": 120000.0,
       "mirabad": 125000.0,
-      "mirzo-ulugbek": 450000.0,
-      "yakkasarai": 100000.0
+      "mirzo-ulugbek": 400000.0,
+      "sergeli": 600000.0,
+      "shaykhantohur": 600000.0,
+      "uchtepa": 125000.0,
+      "yakkasarai": 120000.0,
+      "yashnabad": 700000.0,
+      "yunusabad": 640000.0
     },
     "price_uzs-max": {
-      "mirabad": 2009600000.0,
+      "almazar": 38400000.0,
+      "bektemir": 34560000.0,
+      "chilonzor": 21760000.0,
+      "mirabad": 57600000.0,
       "mirzo-ulugbek": 44800000.0,
-      "yakkasarai": 832000000.0
+      "sergeli": 25600000.0,
+      "shaykhantohur": 89600000.0,
+      "uchtepa": 42240000.0,
+      "yakkasarai": 115200000.0,
+      "yashnabad": 34560000.0,
+      "yunusabad": 57600000.0
     },
     "card_id-count": {
-      "mirabad": 557,
-      "mirzo-ulugbek": 508,
-      "yakkasarai": 528
+      "almazar": 450,
+      "bektemir": 437,
+      "chilonzor": 464,
+      "mirabad": 515,
+      "mirzo-ulugbek": 502,
+      "sergeli": 459,
+      "shaykhantohur": 525,
+      "uchtepa": 432,
+      "yakkasarai": 485,
+      "yashnabad": 471,
+      "yunusabad": 474
     }
   },
   "top_companies": {
-    "Ipotekabank OTP Group": 32,
     "«UZUM TECHNOLOGIES»": 30,
-    "AVO.UZ": 14,
+    "Ipotekabank OTP Group": 26,
+    "ASTERIUM": 17,
     "United IT Company": 14,
-    "CENTER FOR DIGITAL TECHNOLOGY AND INNOVATION": 13,
-    "Citi Fuel (ООО Staff Atlantic)": 12,
-    "UNITEL LLC": 12,
-    "FULL STACK SOLUTION": 12,
-    "LEADING BUSINESS SOFTWARE": 11,
-    "АО ANOR BANK": 11
+    "AVO.UZ": 14,
+    "UNITEL LLC": 14,
+    "FULL STACK SOLUTION": 13,
+    "CENTER FOR DIGITAL TECHNOLOGY AND INNOVATION": 12,
+    "АО ANOR BANK": 12,
+    "Citi Fuel (ООО Staff Atlantic)": 11
   },
   "room_distribution": {
-    "1": 119,
-    "2": 707,
-    "3": 545,
-    "4": 162,
-    "5": 37,
-    "6": 9,
-    "10": 13,
-    "26": 1
+    "1": 708,
+    "2": 2490,
+    "3": 1530,
+    "4": 340,
+    "5": 74,
+    "6": 21,
+    "7": 2,
+    "8": 4,
+    "9": 2,
+    "10": 20,
+    "11": 4,
+    "12": 2,
+    "14": 1,
+    "15": 1,
+    "21": 1,
+    "23": 1,
+    "25": 4,
+    "26": 1,
+    "27": 1,
+    "50": 3,
+    "52": 1,
+    "55": 1,
+    "56": 1,
+    "100": 1
   },
   "correlation": [
     {
-      "district": "Mirzo Ulugbek",
-      "rent": 650,
-      "jobs": 206
+      "district": "Yashnabad",
+      "rent": 500,
+      "jobs": 176
     },
     {
       "district": "Yunusabad",
+      "rent": 600,
+      "jobs": 285
+    },
+    {
+      "district": "Mirzo Ulugbek",
+      "rent": 600,
+      "jobs": 200
+    },
+    {
+      "district": "Almazar",
+      "rent": 550,
+      "jobs": 71
+    },
+    {
+      "district": "Chilonzor",
+      "rent": 450,
+      "jobs": 77
+    },
+    {
+      "district": "Uchtepa",
+      "rent": 450,
+      "jobs": 12
+    },
+    {
+      "district": "Sergeli",
+      "rent": 400,
+      "jobs": 29
+    },
+    {
+      "district": "Bektemir",
+      "rent": 400,
+      "jobs": 9
+    },
+    {
+      "district": "Yakkasaray",
       "rent": 0,
-      "jobs": 290
+      "jobs": 157
+    },
+    {
+      "district": "Shaykhantahur",
+      "rent": 0,
+      "jobs": 109
     },
     {
       "district": "Yakkasaray",
@@ -263,65 +373,30 @@
       "jobs": 0
     },
     {
-      "district": "Yashnabad",
-      "rent": 0,
-      "jobs": 172
-    },
-    {
-      "district": "Yakkasaray",
-      "rent": 0,
-      "jobs": 161
-    },
-    {
-      "district": "Shaykhantahur",
-      "rent": 0,
-      "jobs": 105
-    },
-    {
-      "district": "Chilonzor",
-      "rent": 0,
-      "jobs": 76
-    },
-    {
-      "district": "Almazar",
-      "rent": 0,
-      "jobs": 69
-    },
-    {
-      "district": "Sergeli",
-      "rent": 0,
-      "jobs": 30
-    },
-    {
-      "district": "Uchtepa",
-      "rent": 0,
-      "jobs": 14
+      "district": "Mirabad",
+      "rent": 1000,
+      "jobs": 197
     },
     {
       "district": "Yangi-Hayot",
       "rent": 0,
-      "jobs": 14
+      "jobs": 13
+    },
+    {
+      "district": "Shaykhontohur",
+      "rent": 1000,
+      "jobs": 0
     },
     {
       "district": "Yangi-Tashkent",
       "rent": 0,
       "jobs": 6
-    },
-    {
-      "district": "Bektemir",
-      "rent": 0,
-      "jobs": 10
-    },
-    {
-      "district": "Mirabad",
-      "rent": 1000,
-      "jobs": 192
     }
   ],
   "metadata": {
-    "total_rentals": 1593,
-    "total_jobs": 1345,
-    "avg_rent_usd": 1061,
+    "total_rentals": 5214,
+    "total_jobs": 1341,
+    "avg_rent_usd": 684,
     "usd_rate": 12800
   }
 }

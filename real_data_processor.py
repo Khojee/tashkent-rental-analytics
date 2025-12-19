@@ -146,6 +146,9 @@ def load_rental_data_for_district(district_name):
         
         # Convert prices to UZS
         df_merged['price_uzs'] = df_merged.apply(convert_price_to_uzs, axis=1)
+
+        # Ensure area is numeric
+        df_merged['area'] = pd.to_numeric(df_merged['area'], errors='coerce')
         
         # Calculate price per sqm
         df_merged['price_per_sqm'] = df_merged.apply(
@@ -185,6 +188,10 @@ def load_all_rental_data():
             print(f"  ✓ {district}: {len(df)} listings")
     
     # Combine all districts
+    if not all_rentals:
+        print("  ⚠ No rental data loaded!")
+        return pd.DataFrame(columns=['district_name', 'price_uzs', 'area', 'number_rooms', 'card_id'])
+
     df_combined = pd.concat(all_rentals, ignore_index=True)
     
     print(f"  ✓ Total rental listings: {len(df_combined)}")
@@ -227,18 +234,25 @@ def calculate_affordability_scores(rental_df):
     """Calculate affordability score (inverse of median rent)"""
     print("\nCalculating affordability scores...")
     
+    if rental_df.empty:
+        return {}, {}
+    
     # Group by district and calculate median rent
     district_rents = rental_df.groupby('district_name')['price_uzs'].median().to_dict()
     
     # Invert and normalize to 0-10 scale
-    max_rent = max(district_rents.values())
-    min_rent = min(district_rents.values())
+    max_rent = max(district_rents.values()) if district_rents else 0
+    min_rent = min(district_rents.values()) if district_rents else 0
     
     scores = {}
     for district, rent in district_rents.items():
         # Lower rent = higher score
-        normalized = (max_rent - rent) / (max_rent - min_rent)
-        scores[district] = normalized * 10
+        if max_rent == min_rent:
+             # If only one district or all rents are equal, give a middle score or 10
+            scores[district] = 5.0
+        else:
+            normalized = (max_rent - rent) / (max_rent - min_rent)
+            scores[district] = normalized * 10
     
     print(f"  ✓ Affordability scores calculated for {len(scores)} districts")
     return scores, district_rents
