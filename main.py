@@ -20,6 +20,8 @@ Options:
 
 import argparse
 import sys
+import os
+import importlib.util
 from datetime import datetime
 from pathlib import Path
 
@@ -27,7 +29,7 @@ from pathlib import Path
 from olx_cards_by_district import DistrictScraper
 from list_cleaning import DistrictListingCleaner
 from info_by_card import CardDetailsScraper
-
+import real_data_processor
 
 class OLXScraperPipeline:
     """
@@ -252,76 +254,67 @@ class OLXScraperPipeline:
         return self.step3_scrape_details()
 
 
-def main():
-    """Main entry point with argument parsing."""
-    parser = argparse.ArgumentParser(
-        description="OLX Tashkent Rental Analytics - Data Collection Pipeline",
-        formatter_class=argparse.RawDescriptionHelpFormatter,
-        epilog="""
-Examples:
-  # Run full pipeline with default settings
-  python main.py
-  
-  # Run full pipeline with 20 pages per district
-  python main.py --max-pages 20
-  
-  # Only scrape specific districts
-  python main.py --scrape-only --districts 26,25,24
-  
-  # Only clean existing data
-  python main.py --clean-only
-  
-  # Only scrape details from cleaned data
-  python main.py --details-only
-        """
-    )
+def run_transit_analytics_submodule():
+    """Runs the Transit Analytics map.py script"""
+    print("\n" + "#" * 80)
+    print("RUNNING TASHKENT TRANSIT ANALYTICS")
+    print("#" * 80 + "\n")
     
-    parser.add_argument(
-        '--scrape-only',
-        action='store_true',
-        help='Only run the scraping step'
-    )
+    path = os.path.join(os.path.dirname(__file__), 'Tashkent_Transit_Analytics')
+    sys.path.insert(0, path)
+    try:
+        import map as transit_map
+        transit_map.run_transit_analytics()
+    except Exception as e:
+        print(f"❌ Error running Transit Analytics: {e}")
+    finally:
+        if path in sys.path:
+            sys.path.remove(path)
+
+def run_tech_job_analytics_submodule():
+    """Runs the Tech Job Analytics main.py script"""
+    print("\n" + "#" * 80)
+    print("RUNNING TASHKENT TECH JOB ANALYTICS")
+    print("#" * 80 + "\n")
     
-    parser.add_argument(
-        '--clean-only',
-        action='store_true',
-        help='Only run the cleaning step'
-    )
+    path = os.path.join(os.path.dirname(__file__), 'Tashkent_Tech_Job_Analytics')
+    sys.path.insert(0, path)
+    try:
+        # Import main.py from the subdirectory without conflicting with root main
+        spec = importlib.util.spec_from_file_location("job_app_main", os.path.join(path, "main.py"))
+        job_module = importlib.util.module_from_spec(spec)
+        sys.modules["job_app_main"] = job_module
+        spec.loader.exec_module(job_module)
+        job_module.main()
+    except Exception as e:
+        print(f"❌ Error running Job Analytics: {e}")
+    finally:
+        if path in sys.path:
+            sys.path.remove(path)
+        if "job_app_main" in sys.modules:
+            del sys.modules["job_app_main"]
+
+def run_real_data_processor_task():
+    """Runs the Real Data Processor"""
+    print("\n" + "#" * 80)
+    print("RUNNING REAL DATA PROCESSOR")
+    print("#" * 80 + "\n")
     
-    parser.add_argument(
-        '--details-only',
-        action='store_true',
-        help='Only run the details scraping step'
-    )
-    
-    parser.add_argument(
-        '--max-pages',
-        type=int,
-        default=10,
-        help='Maximum pages to scrape per district (default: 10)'
-    )
-    
-    parser.add_argument(
-        '--districts',
-        type=str,
-        help='Comma-separated district IDs to process (e.g., "26,25,24")'
-    )
-    
-    args = parser.parse_args()
-    
-    # Parse district IDs if provided
-    district_ids = None
-    if args.districts:
-        try:
-            district_ids = [int(d.strip()) for d in args.districts.split(',')]
-        except ValueError:
-            print("❌ Error: Invalid district IDs format. Use comma-separated integers.")
-            sys.exit(1)
+    try:
+        real_data_processor.main()
+    except Exception as e:
+        print(f"❌ Error running Real Data Processor: {e}")
+
+def run_olx_pipeline(args):
+    """Runs existing OLX pipeline based on args"""
+    print("\n" + "#" * 80)
+    print("RUNNING OLX SCRAPING PIPELINE")
+    print("#" * 80 + "\n")
     
     # Create pipeline
     pipeline = OLXScraperPipeline(
         max_pages=args.max_pages,
-        district_ids=district_ids
+        district_ids=args.district_ids
     )
     
     # Run appropriate mode
@@ -337,8 +330,89 @@ Examples:
         # Run full pipeline
         success = pipeline.run_full_pipeline()
     
-    # Exit with appropriate code
-    sys.exit(0 if success else 1)
+    return success
+
+def main():
+    """Main entry point with argument parsing."""
+    parser = argparse.ArgumentParser(
+        description="Tashkent Data Analytics Suite - Master Pipeline",
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog="""
+Examples:
+  # Run EVERYTHING (Transit, Jobs, OLX, Processing)
+  python main.py
+  
+  # Run only the OLX part with custom settings (skips others?) 
+  # Note: The requested behavior is that main.py should run ALL. 
+  # But we can keep flags to allow partial runs for debugging.
+  
+  python main.py --olx-only --max-pages 20
+        """
+    )
+    
+    parser.add_argument('--olx-only', action='store_true', help='Run only the OLX scraping pipeline')
+    parser.add_argument('--scrape-only', action='store_true', help='Only run the scraping step (OLX)')
+    parser.add_argument('--clean-only', action='store_true', help='Only run the cleaning step (OLX)')
+    parser.add_argument('--details-only', action='store_true', help='Only run the details scraping step (OLX)')
+    
+    parser.add_argument(
+        '--max-pages',
+        type=int,
+        default=10,
+        help='Maximum pages to scrape per district for OLX (default: 10)'
+    )
+    
+    parser.add_argument(
+        '--districts',
+        type=str,
+        help='Comma-separated district IDs for OLX (e.g., "26,25,24")'
+    )
+    
+    args = parser.parse_args()
+    
+    # Parse district IDs if provided
+    district_ids = None
+    if args.districts:
+        try:
+            district_ids = [int(d.strip()) for d in args.districts.split(',')]
+        except ValueError:
+            print("❌ Error: Invalid district IDs format. Use comma-separated integers.")
+            sys.exit(1)
+            
+    args.district_ids = district_ids
+
+    # Logic:
+    # If any specific OLX flag is set, or olx-only is set, run only OLX.
+    # Otherwise, run EVERYTHING.
+    
+    olx_specific_flags = args.scrape_only or args.clean_only or args.details_only or args.olx_only
+    
+    if not olx_specific_flags:
+        # Run Full Suite
+        print("🚀 STARTING MASTER PIPELINE EXECUTION 🚀")
+        
+        # 1. Transit Analytics
+        run_transit_analytics_submodule()
+        
+        # 2. Tech Job Analytics
+        run_tech_job_analytics_submodule()
+        
+        # 3. OLX Pipeline (Full)
+        run_olx_pipeline(args)
+        
+        # 4. Real Data Processor
+        run_real_data_processor_task()
+        
+        print("\n" + "=" * 80)
+        print("✅ MASTER PIPELINE COMPLETE")
+        print("=" * 80)
+        
+    else:
+        # Run only OLX parts
+        success = run_olx_pipeline(args)
+        sys.exit(0 if success else 1)
+    
+    sys.exit(0)
 
 
 if __name__ == "__main__":

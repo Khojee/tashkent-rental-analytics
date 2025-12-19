@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tashkent District Analysis Dashboard</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .loading {
+            text-align: center;
+            color: white;
+            font-size: 24px;
+            padding: 50px;
+        }
+
+        .error {
+            background: #fee;
+            border: 2px solid #c33;
+            border-radius: 12px;
+            padding: 30px;
+            margin: 20px;
+            color: #c33;
+        }
+
+        .error h2 {
+            margin-bottom: 15px;
+        }
+
+        .error code {
+            background: #fdd;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: monospace;
+        }
+
+        .header {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .header h1 {
+            color: #1a202c;
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: #718096;
+            font-size: 16px;
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .metric-card {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .metric-info h3 {
+            color: #718096;
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+
+        .metric-info p {
+            color: #1a202c;
+            font-size: 28px;
+            font-weight: 700;
+        }
+
+        .metric-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+
+        .icon-blue {
+            background: #ebf4ff;
+        }
+
+        .icon-green {
+            background: #e6fffa;
+        }
+
+        .icon-orange {
+            background: #fff5e6;
+        }
+
+        .icon-purple {
+            background: #f3e8ff;
+        }
+
+        .recommendations {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 20px;
+            color: white;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .recommendations h2 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .rec-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 15px;
+        }
+
+        .rec-card {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 10px;
+            padding: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .rec-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .rec-header h3 {
+            font-size: 20px;
+        }
+
+        .rec-score {
+            background: rgba(255, 255, 255, 0.25);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-weight: 700;
+        }
+
+        .rec-details {
+            font-size: 14px;
+            line-height: 1.8;
+        }
+
+        .rec-details div {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .controls {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .controls h2 {
+            color: #1a202c;
+            font-size: 20px;
+            margin-bottom: 20px;
+        }
+
+        .slider-group {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+        }
+
+        .slider-container label {
+            display: block;
+            color: #4a5568;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .slider-container input[type="range"] {
+            width: 100%;
+            height: 6px;
+            border-radius: 3px;
+            background: #e2e8f0;
+            outline: none;
+            -webkit-appearance: none;
+        }
+
+        .slider-container input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: #667eea;
+            cursor: pointer;
+        }
+
+        .slider-container input[type="range"]::-moz-range-thumb {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: #667eea;
+            cursor: pointer;
+            border: none;
+        }
+
+        .total-weight {
+            margin-top: 15px;
+            padding: 10px;
+            background: #f7fafc;
+            border-radius: 6px;
+            text-align: center;
+            font-size: 14px;
+            color: #4a5568;
+        }
+
+        .charts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .chart-card {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .chart-card h2 {
+            color: #1a202c;
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+
+        .chart-container {
+            position: relative;
+            height: 350px;
+        }
+
+        .full-width {
+            grid-column: 1 / -1;
+        }
+
+        .lifecycle {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .lifecycle h2 {
+            color: #1a202c;
+            font-size: 20px;
+            margin-bottom: 20px;
+        }
+
+        .lifecycle-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .lifecycle-item {
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .lifecycle-item h3 {
+            font-size: 16px;
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+
+        .lifecycle-item p {
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        .phase-obtain {
+            background: #ebf4ff;
+            color: #2563eb;
+        }
+
+        .phase-scrub {
+            background: #d1fae5;
+            color: #059669;
+        }
+
+        .phase-explore {
+            background: #fef3c7;
+            color: #d97706;
+        }
+
+        .phase-model {
+            background: #fed7aa;
+            color: #ea580c;
+        }
+
+        .phase-interpret {
+            background: #f3e8ff;
+            color: #9333ea;
+        }
+
+        #content {
+            display: none;
+        }
+
+        #content.loaded {
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="loading" id="loading">
+        ⏳ Loading dashboard data...
+    </div>
+
+    <div class="error" id="error" style="display: none;">
+        <h2>❌ Error Loading Data</h2>
+        <p id="error-message"></p>
+        <p style="margin-top: 15px; font-size: 14px;">
+            <strong>Make sure:</strong><br>
+            1. You've run <code>python real_data_processor.py</code> first<br>
+            2. The file <code>dashboard_data.json</code> is in the same directory as this HTML file<br>
+            3. You're opening this HTML file using a local web server (not file:// protocol)
+        </p>
+        <p style="margin-top: 15px; font-size: 14px;">
+            <strong>To run a local server:</strong><br>
+            <code>python -m http.server 8000</code><br>
+            Then open: <code>http://localhost:8000/real_data_dashboard.html</code>
+        </p>
+    </div>
+
+    <div class="container" id="content">
+        <!-- Header -->
+        <div class="header">
+            <h1>🏙️ Tashkent District Analysis Dashboard</h1>
+            <p>Data Science Lifecycle Applied: Tech Job Relocation Assistant</p>
+        </div>
+
+        <!-- Key Metrics -->
+        <div class="metrics-grid">
+            <div class="metric-card">
+                <div class="metric-info">
+                    <h3>Total Districts</h3>
+                    <p id="metric-districts">-</p>
+                </div>
+                <div class="metric-icon icon-blue">📍</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-info">
+                    <h3>Avg Rent (USD)</h3>
+                    <p id="metric-rent">-</p>
+                </div>
+                <div class="metric-icon icon-green">🏠</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-info">
+                    <h3>Total Tech Jobs</h3>
+                    <p id="metric-jobs">-</p>
+                </div>
+                <div class="metric-icon icon-orange">💼</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-info">
+                    <h3>Rental Listings</h3>
+                    <p id="metric-listings">-</p>
+                </div>
+                <div class="metric-icon icon-purple">📋</div>
+            </div>
+        </div>
+
+        <!-- Top Recommendations -->
+        <div class="recommendations">
+            <h2>🏆 Top 3 Recommended Districts</h2>
+            <div class="rec-grid" id="recommendations"></div>
+        </div>
+
+        <!-- Weight Controls -->
+        <div class="controls">
+            <h2>⚖️ Adjust Priority Weights</h2>
+            <div class="slider-group">
+                <div class="slider-container">
+                    <label for="weight-transit">Transit Access: <span id="val-transit">30</span>%</label>
+                    <input type="range" id="weight-transit" min="0" max="100" value="30">
+                </div>
+                <div class="slider-container">
+                    <label for="weight-afford">Affordability: <span id="val-afford">40</span>%</label>
+                    <input type="range" id="weight-afford" min="0" max="100" value="40">
+                </div>
+                <div class="slider-container">
+                    <label for="weight-employ">Tech Jobs: <span id="val-employ">30</span>%</label>
+                    <input type="range" id="weight-employ" min="0" max="100" value="30">
+                </div>
+            </div>
+            <div class="total-weight">
+                Total Weight: <strong><span id="total-weight">100</span>%</strong>
+                <span id="weight-warning" style="color: #dc2626; display: none; margin-left: 10px;">⚠️ Should equal
+                    100%</span>
+            </div>
+        </div>
+
+        <!-- Charts -->
+        <div class="charts-grid">
+            <div class="chart-card">
+                <h2>District Composite Scores</h2>
+                <div class="chart-container">
+                    <canvas id="scoresChart"></canvas>
+                </div>
+            </div>
+
+            <div class="chart-card">
+                <h2>Multi-Factor Comparison (Top 4)</h2>
+                <div class="chart-container">
+                    <canvas id="radarChart"></canvas>
+                </div>
+            </div>
+
+            <div class="chart-card">
+                <h2>Average Monthly Rent (USD)</h2>
+                <div class="chart-container">
+                    <canvas id="rentChart"></canvas>
+                </div>
+            </div>
+
+            <div class="chart-card">
+                <h2>Tech Job Availability by District</h2>
+                <div class="chart-container">
+                    <canvas id="jobsChart"></canvas>
+                </div>
+            </div>
+
+            <div class="chart-card full-width">
+                <h2>Detailed Factor Breakdown</h2>
+                <div class="chart-container">
+                    <canvas id="detailsChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Data Science Lifecycle -->
+        <div class="lifecycle">
+            <h2>📊 Data Science Lifecycle Application</h2>
+            <div class="lifecycle-grid">
+                <div class="lifecycle-item phase-obtain">
+                    <h3>Obtain</h3>
+                    <p>3 datasets: Transit, Rentals, Tech Jobs from OLX, HH.uz, Transit APIs</p>
+                </div>
+                <div class="lifecycle-item phase-scrub">
+                    <h3>Scrub</h3>
+                    <p>Cleaned missing values, normalized prices to UZS, merged datasets</p>
+                </div>
+                <div class="lifecycle-item phase-explore">
+                    <h3>Explore</h3>
+                    <p>EDA with correlations, distributions & outlier detection</p>
+                </div>
+                <div class="lifecycle-item phase-model">
+                    <h3>Model</h3>
+                    <p>Scoring system with weighted factors + regression analysis</p>
+                </div>
+                <div class="lifecycle-item phase-interpret">
+                    <h3>Interpret</h3>
+                    <p>Recommendations with trade-offs & sensitivity analysis</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let dashboardData = null;
+        let charts = {};
+
+        // Load data from JSON file
+        async function loadData() {
+            try {
+                const response = await fetch('dashboard_data.json');
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const data = await response.json();
+                return data;
+            } catch (error) {
+                console.error('Error loading data:', error);
+                throw error;
+            }
+        }
+
+        function showError(message) {
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('error').style.display = 'block';
+            document.getElementById('error-message').textContent = message;
+        }
+
+        function init(data) {
+            dashboardData = data;
+
+            // Hide loading, show content
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('content').classList.add('loaded');
+
+            updateMetrics();
+            updateRecommendations();
+            createCharts();
+            setupSliders();
+        }
+
+        function updateMetrics() {
+            if (!dashboardData || !dashboardData.metadata) return;
+
+            document.getElementById('metric-districts').textContent = dashboardData.districts.length;
+            document.getElementById('metric-rent').textContent = '$' + dashboardData.metadata.avg_rent_usd;
+            document.getElementById('metric-jobs').textContent = dashboardData.metadata.total_jobs.toLocaleString();
+            document.getElementById('metric-listings').textContent = dashboardData.metadata.total_rentals.toLocaleString();
+        }
+
+        function updateRecommendations() {
+            if (!dashboardData) return;
+
+            const container = document.getElementById('recommendations');
+            const top3 = dashboardData.districts.slice(0, 3);
+
+            container.innerHTML = top3.map((d, i) => `
+                <div class="rec-card">
+                    <div class="rec-header">
+                        <h3>${i + 1}. ${d.district_display}</h3>
+                        <span class="rec-score">${d.composite_score}/10</span>
+                    </div>
+                    <div class="rec-details">
+                        <div><span>Transit:</span><span>${d.transit_score}/10</span></div>
+                        <div><span>Affordability:</span><span>${d.affordability_score}/10</span></div>
+                        <div><span>Employment:</span><span>${d.employment_score}/10</span></div>
+                        <div><span>Avg Rent:</span><span>$${d.avg_rent_usd}/mo</span></div>
+                        <div><span>Tech Jobs:</span><span>${d.total_jobs}</span></div>
+                        <div><span>Listings:</span><span>${d.rental_listings}</span></div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function createCharts() {
+            if (!dashboardData) return;
+
+            const colors = ['#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6', '#ec4899', '#14b8a6', '#f97316', '#06b6d4', '#84cc16', '#f43f5e'];
+
+            // Composite Scores Chart
+            charts.scores = new Chart(document.getElementById('scoresChart'), {
+                type: 'bar',
+                data: {
+                    labels: dashboardData.districts.map(d => d.district_display),
+                    datasets: [{
+                        label: 'Composite Score',
+                        data: dashboardData.districts.map(d => d.composite_score),
+                        backgroundColor: colors
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: { beginAtZero: true, max: 10 }
+                    },
+                    plugins: {
+                        legend: { display: false }
+                    }
+                }
+            });
+
+            // Radar Chart (Top 4)
+            const top4 = dashboardData.districts.slice(0, 4);
+            charts.radar = new Chart(document.getElementById('radarChart'), {
+                type: 'radar',
+                data: {
+                    labels: ['Transit', 'Affordability', 'Employment'],
+                    datasets: top4.map((d, i) => ({
+                        label: d.district_display,
+                        data: [d.transit_score, d.affordability_score, d.employment_score],
+                        borderColor: colors[i],
+                        backgroundColor: colors[i] + '40',
+                        borderWidth: 2
+                    }))
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        r: { beginAtZero: true, max: 10 }
+                    }
+                }
+            });
+
+            // Rent Chart
+            charts.rent = new Chart(document.getElementById('rentChart'), {
+                type: 'bar',
+                data: {
+                    labels: dashboardData.districts.map(d => d.district_display),
+                    datasets: [{
+                        label: 'Avg Rent (USD)',
+                        data: dashboardData.districts.map(d => d.avg_rent_usd),
+                        backgroundColor: '#10b981'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    indexAxis: 'y',
+                    plugins: {
+                        legend: { display: false }
+                    }
+                }
+            });
+
+            // Jobs Chart
+            charts.jobs = new Chart(document.getElementById('jobsChart'), {
+                type: 'bar',
+                data: {
+                    labels: dashboardData.districts.map(d => d.district_display),
+                    datasets: [{
+                        label: 'Tech Jobs',
+                        data: dashboardData.districts.map(d => d.total_jobs),
+                        backgroundColor: '#f59e0b'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false }
+                    }
+                }
+            });
+
+            // Details Chart
+            charts.details = new Chart(document.getElementById('detailsChart'), {
+                type: 'bar',
+                data: {
+                    labels: dashboardData.districts.map(d => d.district_display),
+                    datasets: [
+                        {
+                            label: 'Transit',
+                            data: dashboardData.districts.map(d => d.transit_score),
+                            backgroundColor: '#3b82f6'
+                        },
+                        {
+                            label: 'Affordability',
+                            data: dashboardData.districts.map(d => d.affordability_score),
+                            backgroundColor: '#10b981'
+                        },
+                        {
+                            label: 'Employment',
+                            data: dashboardData.districts.map(d => d.employment_score),
+                            backgroundColor: '#f59e0b'
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: { beginAtZero: true, max: 10 }
+                    }
+                }
+            });
+        }
+
+        function setupSliders() {
+            const sliders = ['transit', 'afford', 'employ'];
+
+            sliders.forEach(name => {
+                const slider = document.getElementById(`weight-${name}`);
+                const display = document.getElementById(`val-${name}`);
+
+                slider.addEventListener('input', function () {
+                    display.textContent = this.value;
+                    updateWeightTotal();
+                    recalculateScores();
+                });
+            });
+        }
+
+        function updateWeightTotal() {
+            const total =
+                parseInt(document.getElementById('weight-transit').value) +
+                parseInt(document.getElementById('weight-afford').value) +
+                parseInt(document.getElementById('weight-employ').value);
+
+            document.getElementById('total-weight').textContent = total;
+
+            const warning = document.getElementById('weight-warning');
+            warning.style.display = total !== 100 ? 'inline' : 'none';
+        }
+
+        function recalculateScores() {
+            if (!dashboardData) return;
+
+            const wTransit = parseInt(document.getElementById('weight-transit').value) / 100;
+            const wAfford = parseInt(document.getElementById('weight-afford').value) / 100;
+            const wEmploy = parseInt(document.getElementById('weight-employ').value) / 100;
+
+            // Recalculate composite scores
+            dashboardData.districts.forEach(d => {
+                d.composite_score = parseFloat(
+                    (d.transit_score * wTransit +
+                        d.affordability_score * wAfford +
+                        d.employment_score * wEmploy).toFixed(1)
+                );
+            });
+
+            // Re-sort
+            dashboardData.districts.sort((a, b) => b.composite_score - a.composite_score);
+
+            // Update UI
+            updateRecommendations();
+
+            // Update scores chart
+            if (charts.scores) {
+                charts.scores.data.labels = dashboardData.districts.map(d => d.district_display);
+                charts.scores.data.datasets[0].data = dashboardData.districts.map(d => d.composite_score);
+                charts.scores.update();
+            }
+        }
+
+        // Initialize on page load
+        window.addEventListener('DOMContentLoaded', async () => {
+            try {
+                const data = await loadData();
+                init(data);
+            } catch (error) {
+                showError(`Failed to load dashboard_data.json: ${error.message}`);
+            }
+        });
+    </script>
+</body>
+
+</html>
